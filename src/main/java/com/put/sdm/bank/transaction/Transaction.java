@@ -1,19 +1,22 @@
-package main.java.com.put.sdm.bank.transaction;
+package com.put.sdm.bank.transaction;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import lombok.Getter;
+
 
 public class Transaction {
 
-    private TransactionType type;
-    private Date executionDate;
-    private String description;
+    private final UUID id;
+    private final TransactionType type;
+    @Getter
+    private final LocalDateTime executionDate;
+    private final String description;
 
     public boolean makeTransaction(TransactionType type, Date executionDate, String description) {
         this.type = type;
         this.executionDate = executionDate;
         this.description = description;
-
-        return true;
     }
 
 }

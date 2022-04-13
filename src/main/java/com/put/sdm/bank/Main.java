@@ -1,4 +1,4 @@
-package main.java.com.put.sdm.bank;
+package com.put.sdm.bank;
 
 public class Main {
 

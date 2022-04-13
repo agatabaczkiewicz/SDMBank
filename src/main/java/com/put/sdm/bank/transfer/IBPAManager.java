@@ -3,21 +3,33 @@ package main.java.com.put.sdm.bank.transfer;
 import java.util.List;
 
 public class IBPAManager {
-    private InterBankTransfer interBankTransfer;
-
-    public void collectTransfer(){
-        this.interBankTransfer = new InterBankTransfer();
+    
+    private static IBPAManager ibpaManager;
+    @Getter
+    @Setter
+    private List<Transfer> cache = new ArrayList<>();
+    
+    private IBPAManager(){}
+    
+    public static IBPAManager getIBPAManager(){
+        if (Objects.isNull(ibpaManager)) {
+            ibpaManager = new IBPAManager();
+        }
+        return ibpaManager;
     }
 
-    public List<Transfer> repackgeTransfer(){
-        return this.interBankTransfer.getTransfers();
+    public void addTransferToCache(Transfer transfer){
+        cache.add(transfer);
     }
 
-    public void sendToRecipient(){
-
+    public void sendInterBankTransfer() {
+        new InterBankTransfer(this.cache);
+        this.cache = new ArrayList<>();
+        //magically send inter bank transfer to remote bank
     }
 
-    public void receiveTransfer(){
-
+    public void receiveInterBankTransfer(InterBankTransfer interBankTransfer) {
+        //magically receive inter bank transfer from remote bank
+        interBankTransfer.getTransferList().stream().forEach(transfer -> transfer.getReceiver().receiveMoney(transfer.getMoneyToTransfer()));
     }
 }

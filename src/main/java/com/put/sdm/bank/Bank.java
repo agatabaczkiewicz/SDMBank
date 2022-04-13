@@ -1,11 +1,24 @@
 package main.java.com.put.sdm.bank;
 
-import main.java.com.put.sdm.bank.transfer.IBPAManager;
+import com.put.sdm.bank.report.Report;
+import com.put.sdm.bank.transaction.HistoryOfTransactions;
+import com.put.sdm.bank.transaction.Transaction;
+import com.put.sdm.bank.transaction.TransactionType;
+import com.put.sdm.bank.transfer.IBPAManager;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Bank {
 
-    //private HistoryOfOperation historyOfOperation;
-    // private List<Account>: accounts
+    @Getter
+    private HistoryOfTransactions historyOfOperations = new HistoryOfTransactions();
+    @Getter
+    private List<Account> accounts;
     private IBPAManager ibpaManager;
 
     public Bank() {

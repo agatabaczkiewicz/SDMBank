@@ -1,20 +1,22 @@
-package main.java.com.put.sdm.bank.product;
+package com.put.sdm.bank.product;
 
-import main.java.com.put.sdm.bank.Account;
-import main.java.com.put.sdm.bank.Balance;
-import main.java.com.put.sdm.bank.InterestRate;
-import main.java.com.put.sdm.bank.transaction.HistoryOfTransactions;
+import com.put.sdm.bank.Account;
+import com.put.sdm.bank.InterestRateFunction;
+import com.put.sdm.bank.money.Balance;
+import com.put.sdm.bank.InterestRate;
+import com.put.sdm.bank.transaction.HistoryOfTransactions;
 
 import java.util.Date;
 
 public abstract class Product {
 
-    private Account account;
-    private Date startDate;
-    private Date endDate;
-    private Balance balance;
-    private InterestRate interestRate;
-    private HistoryOfTransactions history;
+    protected UUID id;
+    protected Account account;
+    protected LocalDate startDate;
+    protected LocalDate endDate;
+    protected Balance balance;
+    protected InterestRateFunction interestRateFunction;
+    protected HistoryOfTransactions history;
 
     public Product(Account account, Date startDate, Date endDate, Balance balance, InterestRate interestRate, HistoryOfTransactions history) {
         this.account = account;
@@ -25,6 +27,9 @@ public abstract class Product {
         this.history = history;
     }
 
+    public UUID getId() {
+        return id;
+    }
 
     public Account getAccount() {
         return account;
@@ -42,8 +47,8 @@ public abstract class Product {
         return balance;
     }
 
-    public InterestRate getInterestRate() {
-        return interestRate;
+    public InterestRateFunction getInterestRateFunction() {
+        return interestRateFunction;
     }
 
     public HistoryOfTransactions getHistory() {
@@ -58,8 +63,8 @@ public abstract class Product {
         this.balance = balance;
     }
 
-    public void setInterestRate(InterestRate interestRate) {
-        this.interestRate = interestRate;
+    public void setInterestRateFunction(InterestRateFunction interestRateFunction) {
+        this.interestRateFunction = interestRateFunction;
     }
 
 }

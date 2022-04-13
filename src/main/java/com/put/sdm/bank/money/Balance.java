@@ -1,4 +1,4 @@
-package main.java.com.put.sdm.bank.money;
+package com.put.sdm.bank.money;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package main.java.com.put.sdm.bank.transaction;
+package com.put.sdm.bank.transaction;
 
 public enum TransactionType {
     PAYMENT,
