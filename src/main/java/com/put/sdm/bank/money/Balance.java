@@ -21,6 +21,7 @@ public class Balance extends Money{
     public void addAmount(BigDecimal amount){
         this.lastChangeDate = LocalDate.now();
         this.amount= this.amount.add(amount);
+
     }
 
     public void removeAmount(BigDecimal amount){

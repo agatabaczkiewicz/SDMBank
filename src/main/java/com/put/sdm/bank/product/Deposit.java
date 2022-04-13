@@ -34,15 +34,9 @@ public class  Deposit extends Product {
         history.addOperation(new Transaction(TransactionType.MAKE_DEPOSIT, LocalDateTime.now(), String.format("[ACCOUNT %s] Deposit opened", account.getId().toString())));
     }
 
-    public void closeDeposit() {
-
-    }
-
-    public void makeDeposit() {
-
-    }
 
     public void withdrawMoney() {
-
+        account.getBalance().addAmount(depositValue.getAmount());
+        history.addOperation(new Transaction(TransactionType.CLOSE_DEPOSIT, LocalDateTime.now(), String.format("[ACCOUNT %s] Deposit closed", account.getId().toString())));
     }
 }

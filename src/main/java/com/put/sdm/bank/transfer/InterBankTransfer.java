@@ -8,6 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 public class InterBankTransfer {
 
+    @Getter
     private List<Transfer> transferList;
 
 }

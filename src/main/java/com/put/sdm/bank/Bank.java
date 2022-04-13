@@ -30,10 +30,27 @@ public class Bank {
         this.historyOfOperations.addOperation(new Transaction(TransactionType.CREATE_ACCOUNT, LocalDateTime.now(), description));
         this.accounts.add(account);
     }
-    public void createDeposit(){
 
-    }
-    public void createLoan(){
+    public void deleteAccount(UUID id) {
+        Optional<Account> optionalAccount = this.accounts.stream().filter(account -> account.getId().equals(id)).findFirst();
+        optionalAccount.ifPresent(account -> {
+            String description = String.format("Account with id %s deleted", id);
+            historyOfOperations.addOperation(new Transaction(TransactionType.DELETE_ACCOUNT, LocalDateTime.now(), description));
+            this.accounts.remove(account);
+        });
 
+        if(optionalAccount.isEmpty()){
+            String description = String.format("Account with id %s was tried to be deleted, but does not exist", id);
+            this.historyOfOperations.addOperation(new Transaction(TransactionType.DELETE_ACCOUNT, LocalDateTime.now(), description));
+        }
     }
+
+    public Account getAccount(UUID id){
+        return accounts.stream().filter(account -> account.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    public Report generateReport(){
+        return null;
+    }
+
 }

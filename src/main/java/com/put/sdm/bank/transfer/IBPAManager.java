@@ -1,4 +1,4 @@
-package main.java.com.put.sdm.bank.transfer;
+package com.put.sdm.bank.transfer;
 
 
 import lombok.Getter;
