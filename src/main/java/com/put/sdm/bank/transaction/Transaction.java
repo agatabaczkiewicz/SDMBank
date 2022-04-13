@@ -13,7 +13,8 @@ public class Transaction {
     private final LocalDateTime executionDate;
     private final String description;
 
-    public boolean makeTransaction(TransactionType type, Date executionDate, String description) {
+    public Transaction(TransactionType type, LocalDateTime executionDate, String description) {
+        this.id = UUID.randomUUID();
         this.type = type;
         this.executionDate = executionDate;
         this.description = description;

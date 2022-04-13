@@ -1,4 +1,4 @@
-package main.java.com.put.sdm.bank;
+package com.put.sdm.bank;
 
 import com.put.sdm.bank.report.Report;
 import com.put.sdm.bank.transaction.HistoryOfTransactions;
@@ -21,15 +21,14 @@ public class Bank {
     private List<Account> accounts;
     private IBPAManager ibpaManager;
 
-    public Bank() {
-        this.ibpaManager = new IBPAManager();
+    public Bank(){
+        this.ibpaManager = IBPAManager.getIBPAManager();
     }
 
-    public void getIBPAaManager() {
-        this.ibpaManager = new IBPAManager();
-    }
-    public void createAccount(){
-
+    public void createAccount(Account account){
+        String description = String.format("Account with id %s created", account.getId());
+        this.historyOfOperations.addOperation(new Transaction(TransactionType.CREATE_ACCOUNT, LocalDateTime.now(), description));
+        this.accounts.add(account);
     }
     public void createDeposit(){
 

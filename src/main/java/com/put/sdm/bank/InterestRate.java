@@ -5,6 +5,7 @@ import lombok.Getter;
 
 public class InterestRate {
 
+    @Getter
     private float rate;
 
     public InterestRate(float rate) {

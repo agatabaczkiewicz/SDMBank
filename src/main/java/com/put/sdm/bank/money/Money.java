@@ -1,7 +1,10 @@
 package com.put.sdm.bank.money;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
+@Getter
 public class Money {
     protected Currency currency;
     protected BigDecimal amount;
@@ -9,13 +12,5 @@ public class Money {
     public Money(Currency currency, BigDecimal amount){
         this.currency = currency;
         this.amount = amount;
-    }
-
-    public BigDecimal getAmount(){
-        return amount;
-    }
-
-    public Currency getCurrency(){
-        return currency;
     }
 }

@@ -12,7 +12,11 @@ import com.put.sdm.bank.transaction.TransactionType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 
 public class  Deposit extends Product {
     @Getter@Setter

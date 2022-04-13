@@ -6,7 +6,8 @@ import com.put.sdm.bank.money.Balance;
 import com.put.sdm.bank.InterestRate;
 import com.put.sdm.bank.transaction.HistoryOfTransactions;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.UUID;
 
 public abstract class Product {
 
@@ -18,13 +19,14 @@ public abstract class Product {
     protected InterestRateFunction interestRateFunction;
     protected HistoryOfTransactions history;
 
-    public Product(Account account, Date startDate, Date endDate, Balance balance, InterestRate interestRate, HistoryOfTransactions history) {
+    public Product(Account account, LocalDate startDate, LocalDate endDate, Balance balance, InterestRateFunction interestRateFunction) {
+        this.id = UUID.randomUUID();
         this.account = account;
         this.startDate = startDate;
         this.endDate = endDate;
         this.balance = balance;
-        this.interestRate = interestRate;
-        this.history = history;
+        this.interestRateFunction = interestRateFunction;
+        this.history = new HistoryOfTransactions();
     }
 
     public UUID getId() {
@@ -35,11 +37,11 @@ public abstract class Product {
         return account;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -65,6 +67,10 @@ public abstract class Product {
 
     public void setInterestRateFunction(InterestRateFunction interestRateFunction) {
         this.interestRateFunction = interestRateFunction;
+    }
+
+    protected InterestRate calculateInterestRate() {
+        return interestRateFunction.calculateInterestRate(history, account, this);
     }
 
 }

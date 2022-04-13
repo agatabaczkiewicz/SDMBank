@@ -11,5 +11,7 @@ public enum TransactionType {
     CREDIT_PAYMENT,
     DEBIT,
     REPORTING,
-    CARD_PAYMENT
+    CARD_PAYMENT,
+    CREATE_ACCOUNT,
+    DELETE_ACCOUNT,
 }
