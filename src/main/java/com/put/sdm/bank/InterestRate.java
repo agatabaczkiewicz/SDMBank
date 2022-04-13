@@ -1,7 +1,8 @@
 package main.java.com.put.sdm.bank;
 
-import com.put.sdm.bank.transaction.HistoryOfTransactions;
+
 import main.java.com.put.sdm.bank.product.Product;
+import main.java.com.put.sdm.bank.transaction.HistoryOfTransactions;
 
 public class InterestRate {
 

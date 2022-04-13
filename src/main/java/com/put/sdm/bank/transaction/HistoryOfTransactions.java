@@ -1,4 +1,4 @@
-package com.put.sdm.bank.transaction;
+package main.java.com.put.sdm.bank.transaction;
 
 import java.util.ArrayList;
 import java.util.List;

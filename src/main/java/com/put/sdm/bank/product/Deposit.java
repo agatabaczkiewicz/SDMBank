@@ -1,7 +1,10 @@
 package main.java.com.put.sdm.bank.product;
 
-import com.put.sdm.bank.transaction.HistoryOfTransactions;
+import main.java.com.put.sdm.bank.Account;
+import main.java.com.put.sdm.bank.Balance;
 import main.java.com.put.sdm.bank.InterestRate;
+import main.java.com.put.sdm.bank.money.Money;
+import main.java.com.put.sdm.bank.transaction.HistoryOfTransactions;
 
 import java.util.Date;
 
