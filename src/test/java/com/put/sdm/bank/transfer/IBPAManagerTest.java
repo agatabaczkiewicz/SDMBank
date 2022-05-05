@@ -3,6 +3,7 @@ package com.put.sdm.bank.transfer;
 import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.money.Money;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -12,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IBPAManagerTest {
 
-    @AfterEach
-    void tearDown() {
+    @BeforeEach
+    void beforeEach() {
         IBPAManager.getIBPAManager().setCache(new ArrayList<>());
     }
 

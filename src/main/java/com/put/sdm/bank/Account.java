@@ -21,7 +21,9 @@ public class Account {
     @Getter
     private UUID id;
     private Currency currency;
+    @Getter
     private List<Loan> loans;
+    @Getter
     private List<Deposit> deposits;
 
     @Getter
@@ -42,20 +44,13 @@ public class Account {
         boolean verify = transferVerification.verify(transfer);
         if (verify) {
             balance.removeAmount(money.getAmount());
+            receiver.receiveMoney(money);
         }
     }
 
     public void receiveMoney(Money money){
         this.balance.addAmount(money.getAmount());
     };
-
-    public Loan getLoan(String id) { // ??
-        return null;
-    }
-
-    public Deposit getDeposit(String id) { //??
-        return null;
-    }
 
 
     public void createDeposit(LocalDate endDate, InterestRateFunction interestRateFunction, Money moneyForDeposit){
