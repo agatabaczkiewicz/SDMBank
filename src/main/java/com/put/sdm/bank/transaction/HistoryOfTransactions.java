@@ -13,7 +13,4 @@ public class HistoryOfTransactions {
     public List<Transaction> getHistory() {
         return history;
     }
-
-
-
 }

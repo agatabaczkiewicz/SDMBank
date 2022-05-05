@@ -11,9 +11,4 @@ public class InterestRate {
     public InterestRate(float rate) {
         this.rate = rate;
     }
-
-    public static InterestRate calculateInterestRate(HistoryOfTransactions history, Account account, Product product) {
-        return null;
-    }
-
 }

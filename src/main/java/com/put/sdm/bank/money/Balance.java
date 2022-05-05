@@ -28,4 +28,13 @@ public class Balance extends Money{
         this.lastChangeDate = LocalDate.now();
         this.amount= this.amount.subtract(amount);
     }
+
+    @Override
+    public String toString() {
+        return "Balance{" +
+                "lastChangeDate=" + lastChangeDate +
+                ", currency=" + currency +
+                ", amount=" + amount +
+                '}';
+    }
 }

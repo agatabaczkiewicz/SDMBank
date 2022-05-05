@@ -35,6 +35,7 @@ public class Loan extends Product {
         this.initialValue = new Balance(moneyToLoan);
         this.currentValue = this.initialValue;
         this.baseInstallment = calculateBaseInstallment();
+        this.loanValue = new Balance(moneyToLoan.getCurrency(), BigDecimal.ZERO);
         this.interest = new Money(moneyToLoan.getCurrency(),
                 BigDecimal.valueOf(calculateInterestRate().getRate() * baseInstallment.getAmount().longValue()));
         calculateInstallmentWithInterestRate();

@@ -15,5 +15,5 @@ public abstract class Report {
     public void exportToCSV(){
     }
 
-    public abstract void generateReport(LocalDate dateStart, LocalDate dateEnd );
+    public abstract String generateReport(LocalDate dateStart, LocalDate dateEnd );
 }

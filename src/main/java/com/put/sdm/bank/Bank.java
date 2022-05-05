@@ -8,6 +8,7 @@ import com.put.sdm.bank.transfer.IBPAManager;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,6 +23,7 @@ public class Bank {
     private IBPAManager ibpaManager;
 
     public Bank(){
+        this.accounts = new ArrayList<>();
         this.ibpaManager = IBPAManager.getIBPAManager();
     }
 

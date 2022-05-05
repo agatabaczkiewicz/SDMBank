@@ -13,7 +13,7 @@ public class TransferVerification {
         this.bank = bank;
     }
 
-    public boolean verify(Transfer transfer){
+    public boolean verify(Transfer transfer) {
         // założenie: ta sama waluta
         BigDecimal amountOfMoneyAfterTransfer = transfer.getSender().getBalance().getAmount().subtract(transfer.getMoneyToTransfer().getAmount());
         boolean verification = amountOfMoneyAfterTransfer.compareTo(BigDecimal.ZERO) >= 0;
