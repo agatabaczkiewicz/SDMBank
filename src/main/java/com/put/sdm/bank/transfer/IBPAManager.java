@@ -37,6 +37,6 @@ public class IBPAManager {
 
     public void receiveInterBankTransfer(InterBankTransfer interBankTransfer) {
         //magically receive inter bank transfer from remote bank
-        interBankTransfer.getTransferList().stream().forEach(transfer -> transfer.getReceiver().receiveMoney(transfer.getMoneyToTransfer()));
+        interBankTransfer.getTransferList().stream().forEach(transfer -> transfer.getReceiver().getBalance().addAmount(transfer.getMoneyToTransfer().getAmount()));
     }
 }

@@ -1,9 +1,9 @@
 package com.put.sdm.bank;
 
+import com.put.sdm.bank.interestrate.InterestRate;
+import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.money.Money;
-import com.put.sdm.bank.product.Product;
-import com.put.sdm.bank.transaction.HistoryOfTransactions;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,12 +24,6 @@ public class Main {
         Account account = new Account(bank, Miuoszus, Currency.EUR);
 
         bank.createAccount(account);
-
-        account.createLoan(LocalDate.now(), interestRateFunction1, new Money(Currency.PLN, BigDecimal.valueOf(153.99d)));
-
-        account.createDeposit(LocalDate.now(), interestRateFunction1, new Money(Currency.PLN, BigDecimal.valueOf(39.99d)));
-
-
 
       //  bank -> konto--> transfer
     }

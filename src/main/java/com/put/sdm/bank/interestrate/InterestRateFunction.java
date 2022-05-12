@@ -1,9 +1,8 @@
-package com.put.sdm.bank;
+package com.put.sdm.bank.interestrate;
 
+import com.put.sdm.bank.Account;
 import com.put.sdm.bank.product.Product;
 import com.put.sdm.bank.transaction.HistoryOfTransactions;
-import com.put.sdm.bank.transaction.Transaction;
-import java.util.List;
 
 public interface InterestRateFunction {
 

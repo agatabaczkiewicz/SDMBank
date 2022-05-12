@@ -1,5 +1,7 @@
 package com.put.sdm.bank;
 
+import com.put.sdm.bank.command.TransferMoneyCommand;
+import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.product.Loan;
 import com.put.sdm.bank.product.Deposit;
@@ -39,29 +41,6 @@ public class Account {
         this.transferVerification = new TransferVerification(bank);
     }
 
-    public void transferMoney(Account receiver, Money money) {
-        Transfer transfer = new Transfer(this, receiver, money);
-        boolean verify = transferVerification.verify(transfer);
-        if (verify) {
-            balance.removeAmount(money.getAmount());
-            receiver.receiveMoney(money);
-        }
-    }
-
-    public void receiveMoney(Money money){
-        this.balance.addAmount(money.getAmount());
-    };
-
-
-    public void createDeposit(LocalDate endDate, InterestRateFunction interestRateFunction, Money moneyForDeposit){
-        Deposit deposit = new Deposit(this, LocalDate.now(), endDate, moneyForDeposit, interestRateFunction);
-        deposits.add(deposit);
-
-    }
-    public void createLoan(LocalDate endDate, InterestRateFunction interestRateFunction, Money moneyToLoan){
-        Loan newLoan = new Loan(this, LocalDate.now(), endDate, moneyToLoan, interestRateFunction);
-        loans.add(newLoan);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -70,6 +49,7 @@ public class Account {
         Account account = (Account) o;
         return owner.equals(account.owner) && id.equals(account.id);
     }
+
 
     @Override
     public int hashCode() {

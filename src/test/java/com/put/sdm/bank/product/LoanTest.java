@@ -1,6 +1,8 @@
 package com.put.sdm.bank.product;
 
 import com.put.sdm.bank.*;
+import com.put.sdm.bank.interestrate.InterestRate;
+import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.money.Money;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +18,8 @@ class LoanTest {
     private User user;
     private Account account;
     private Money money;
-    private InterestRateFunction interestRateFunction;
+    private
+    InterestRateFunction interestRateFunction;
 
     @BeforeEach
     void setUp() {

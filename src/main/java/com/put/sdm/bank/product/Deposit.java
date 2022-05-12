@@ -1,12 +1,9 @@
 package com.put.sdm.bank.product;
 
 import com.put.sdm.bank.Account;
-import com.put.sdm.bank.InterestRateFunction;
+import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Balance;
-import com.put.sdm.bank.InterestRate;
-import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.money.Money;
-import com.put.sdm.bank.transaction.HistoryOfTransactions;
 import com.put.sdm.bank.transaction.Transaction;
 import com.put.sdm.bank.transaction.TransactionType;
 import lombok.Getter;
@@ -15,7 +12,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 
 public class  Deposit extends Product {

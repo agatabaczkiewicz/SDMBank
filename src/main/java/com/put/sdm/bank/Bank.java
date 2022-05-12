@@ -1,5 +1,6 @@
 package com.put.sdm.bank;
 
+import com.put.sdm.bank.command.AKMCommand;
 import com.put.sdm.bank.report.Report;
 import com.put.sdm.bank.transaction.HistoryOfTransactions;
 import com.put.sdm.bank.transaction.Transaction;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class Bank {
 
@@ -49,6 +49,10 @@ public class Bank {
 
     public Account getAccount(UUID id){
         return accounts.stream().filter(account -> account.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    public void executeAKMCommand(AKMCommand command){
+        command.execute();
     }
 
     public Report generateReport(){

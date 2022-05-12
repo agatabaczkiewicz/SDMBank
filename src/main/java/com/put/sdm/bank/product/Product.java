@@ -1,9 +1,9 @@
 package com.put.sdm.bank.product;
 
 import com.put.sdm.bank.Account;
-import com.put.sdm.bank.InterestRateFunction;
+import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Balance;
-import com.put.sdm.bank.InterestRate;
+import com.put.sdm.bank.interestrate.InterestRate;
 import com.put.sdm.bank.transaction.HistoryOfTransactions;
 
 import java.time.LocalDate;
