@@ -1,11 +1,14 @@
 package com.put.sdm.bank;
 
 import com.put.sdm.bank.command.AKMCommand;
+import com.put.sdm.bank.command.AddMoneyCommand;
 import com.put.sdm.bank.report.Report;
 import com.put.sdm.bank.transaction.HistoryOfTransactions;
 import com.put.sdm.bank.transaction.Transaction;
 import com.put.sdm.bank.transaction.TransactionType;
 import com.put.sdm.bank.transfer.IBPAManager;
+import com.put.sdm.bank.transfer.InterBankTransfer;
+import com.put.sdm.bank.transfer.InterBankTransferManager;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -21,6 +24,7 @@ public class Bank {
     @Getter
     private List<Account> accounts;
     private IBPAManager ibpaManager;
+    private InterBankTransferManager interBankTransferManager;
 
     public Bank(){
         this.accounts = new ArrayList<>();
@@ -49,6 +53,11 @@ public class Bank {
 
     public Account getAccount(UUID id){
         return accounts.stream().filter(account -> account.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    public void handleFailedTransfers(InterBankTransfer interBankTransfer) {
+        interBankTransfer.getTransferList().stream().forEach(transfer ->
+                executeAKMCommand(new AddMoneyCommand(transfer.getSender(), transfer.getMoneyToTransfer())));
     }
 
     public void executeAKMCommand(AKMCommand command){

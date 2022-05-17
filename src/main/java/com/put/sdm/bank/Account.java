@@ -19,6 +19,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Account {
+
+    @Getter
+    private Bank bank;
     private User owner;
     @Getter
     private UUID id;
@@ -39,6 +42,7 @@ public class Account {
         this.deposits = new ArrayList<>();
         this.balance = new Balance(currency, BigDecimal.ZERO);
         this.transferVerification = new TransferVerification(bank);
+        this.bank = bank;
     }
 
 

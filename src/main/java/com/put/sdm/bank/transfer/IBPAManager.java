@@ -1,6 +1,7 @@
 package com.put.sdm.bank.transfer;
 
 
+import com.put.sdm.bank.Bank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class IBPAManager {
+public class IBPAManager{
     
     private static IBPAManager ibpaManager;
     @Getter
