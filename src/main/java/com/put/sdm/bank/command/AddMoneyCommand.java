@@ -1,6 +1,6 @@
 package com.put.sdm.bank.command;
 
-import com.put.sdm.bank.Account;
+import com.put.sdm.bank.account.Account;
 import com.put.sdm.bank.money.Money;
 import lombok.AllArgsConstructor;
 
@@ -13,6 +13,6 @@ public class AddMoneyCommand implements AKMCommand {
 
     @Override
     public void execute() {
-        account.getBalance().addAmount(money.getAmount());
+        account.removeMoney(money);
     }
 }

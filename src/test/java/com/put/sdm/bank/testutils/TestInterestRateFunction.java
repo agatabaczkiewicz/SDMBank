@@ -1,6 +1,6 @@
 package com.put.sdm.bank.testutils;
 
-import com.put.sdm.bank.Account;
+import com.put.sdm.bank.account.Account;
 import com.put.sdm.bank.interestrate.InterestRate;
 import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.product.Product;

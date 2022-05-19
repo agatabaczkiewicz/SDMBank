@@ -1,7 +1,8 @@
 package com.put.sdm.bank.product;
 
 
-import com.put.sdm.bank.Account;
+import com.put.sdm.bank.account.Account;
+import com.put.sdm.bank.account.NormalAccount;
 import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Balance;
 import com.put.sdm.bank.money.Money;
@@ -37,12 +38,11 @@ public class Loan extends Product {
         this.interest = new Money(moneyToLoan.getCurrency(),
                 BigDecimal.valueOf(calculateInterestRate().getRate() * baseInstallment.getAmount().longValue()));
         calculateInstallmentWithInterestRate();
-        this.account.getBalance().addAmount(initialValue.getAmount());
+        this.account.addMoney(new Money(initialValue.getCurrency(), initialValue.getAmount()));
         history.addOperation(new Transaction(TransactionType.OPEN_CREDIT, LocalDateTime.now(),
                 String.format("[ACCOUNT %s]: Credit opened", account.getId())));
     }
 
-    // TODO: zmienna rata kredytu
     private Money calculateInstallmentWithInterestRate(){
         BigDecimal amount = baseInstallment.getAmount().add(interest.getAmount());
         return new Money(initialValue.getCurrency(), amount);
@@ -50,8 +50,8 @@ public class Loan extends Product {
 
     private Money calculateBaseInstallment(){
         long months = ChronoUnit.MONTHS.between(startDate, endDate);
-        double baseInstallment = balance.getAmount().doubleValue() / months;
-        BigDecimal amount = BigDecimal.valueOf(baseInstallment);
+        double calculatedBaseInstallment = balance.getAmount().doubleValue() / months;
+        BigDecimal amount = BigDecimal.valueOf(calculatedBaseInstallment);
         return new Money(initialValue.getCurrency(), amount);
     }
 
@@ -61,7 +61,7 @@ public class Loan extends Product {
         currentValue.removeAmount(baseInstallment.getAmount());
         history.addOperation(new Transaction(TransactionType.CREDIT_PAYMENT, LocalDateTime.now(),
                 String.format("[ACCOUNT %s]: Installment payed - %s left to pay", account.getId(), currentValue.getAmount().toString())));
-        account.getBalance().removeAmount(installment.getAmount());
+        account.removeMoney(new Money(installment.getCurrency(), installment.getAmount()));
 
         // case when account has no money
         // case when someone has different currency than loan currency

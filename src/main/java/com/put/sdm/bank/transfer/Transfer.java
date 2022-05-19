@@ -1,6 +1,7 @@
 package com.put.sdm.bank.transfer;
 
-import com.put.sdm.bank.Account;
+import com.put.sdm.bank.account.Account;
+import com.put.sdm.bank.account.NormalAccount;
 import com.put.sdm.bank.money.Money;
 import lombok.Getter;
 

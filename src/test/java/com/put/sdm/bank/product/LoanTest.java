@@ -1,6 +1,7 @@
 package com.put.sdm.bank.product;
 
 import com.put.sdm.bank.*;
+import com.put.sdm.bank.account.NormalAccount;
 import com.put.sdm.bank.interestrate.InterestRate;
 import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Currency;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LoanTest {
     private Bank bank;
     private User user;
-    private Account account;
+    private NormalAccount account;
     private Money money;
     private
     InterestRateFunction interestRateFunction;
@@ -25,7 +26,7 @@ class LoanTest {
     void setUp() {
         this.bank = new Bank();
         this.user = new User("a", "b");
-        this.account = new Account(bank, user, Currency.PLN);
+        this.account = new NormalAccount(bank, user, Currency.PLN);
         this.money = new Money(Currency.PLN, BigDecimal.valueOf(50L));
         this.interestRateFunction = (historyOfTransactions, account1, product) -> new InterestRate(0f);
     }
@@ -41,7 +42,7 @@ class LoanTest {
         //then
         assertEquals(25.0f, loan.getCurrentValue().getAmount().floatValue());
         assertEquals(25.0f, loan.getLoanValue().getAmount().floatValue());
-        assertEquals(25.0f, account.getBalance().getAmount().floatValue());
+        assertEquals(25.0f, account.getCurrentMoney().getAmount().floatValue());
         assertEquals(2, loan.getHistory().getHistory().size());
     }
 

@@ -1,6 +1,6 @@
 package com.put.sdm.bank.command;
 
-import com.put.sdm.bank.Account;
+import com.put.sdm.bank.account.Account;
 import com.put.sdm.bank.money.Money;
 import com.put.sdm.bank.transfer.Transfer;
 import com.put.sdm.bank.transfer.TransferVerification;
@@ -20,8 +20,8 @@ public class TransferMoneyCommand implements AKMCommand {
         Transfer transfer = new Transfer(sender, receiver, money);
         boolean verify = transferVerification.verify(transfer);
         if (verify) {
-            sender.getBalance().removeAmount(money.getAmount());
-            receiver.getBalance().addAmount(money.getAmount());
+            sender.removeMoney(money);
+            receiver.addMoney(money);
         }
     }
 }

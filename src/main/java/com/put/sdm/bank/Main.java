@@ -1,12 +1,14 @@
 package com.put.sdm.bank;
 
-import com.put.sdm.bank.interestrate.InterestRate;
+import com.put.sdm.bank.account.Account;
+import com.put.sdm.bank.account.DebitAccount;
+import com.put.sdm.bank.account.NormalAccount;
+import com.put.sdm.bank.interestrate.BasicInterestRateFunction;
 import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.money.Money;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public class Main {
 
@@ -16,12 +18,12 @@ public class Main {
         //Finance Person
         Bank bank = new Bank();
 
-        InterestRateFunction interestRateFunction1 = (history, account, product) ->
-                new InterestRate(history.getHistory().size() * 0.33f + account.getBalance().getAmount().floatValue() * 0.09f + product.getStartDate().getYear() * 0.005f);
+        InterestRateFunction interestRateFunction = new BasicInterestRateFunction();
 
         User Miuoszus = new User("Mi", "Kar");
 
-        Account account = new Account(bank, Miuoszus, Currency.EUR);
+        Account account = new NormalAccount(bank, Miuoszus, Currency.EUR);
+        account = new DebitAccount(account, new Money(Currency.PLN, BigDecimal.valueOf(500L)));
 
         bank.createAccount(account);
 

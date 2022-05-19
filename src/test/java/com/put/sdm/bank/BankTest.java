@@ -1,5 +1,7 @@
 package com.put.sdm.bank;
 
+import com.put.sdm.bank.account.Account;
+import com.put.sdm.bank.account.NormalAccount;
 import com.put.sdm.bank.money.Currency;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +14,7 @@ class BankTest {
     {
         //given
         Bank bank = new Bank();
-        Account account = new Account(bank, new User("a", "b"), Currency.PLN);
+        Account account = new NormalAccount(bank, new User("a", "b"), Currency.PLN);
 
         //when
         bank.createAccount(account);
@@ -26,7 +28,7 @@ class BankTest {
     void deleteAccount(){
         //given
         Bank bank = new Bank();
-        Account account = new Account(bank, new User("a", "b"), Currency.PLN);
+        Account account = new NormalAccount(bank, new User("a", "b"), Currency.PLN);
         bank.createAccount(account);
 
         //when

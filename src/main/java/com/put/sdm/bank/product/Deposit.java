@@ -1,6 +1,7 @@
 package com.put.sdm.bank.product;
 
-import com.put.sdm.bank.Account;
+import com.put.sdm.bank.account.Account;
+import com.put.sdm.bank.account.NormalAccount;
 import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Balance;
 import com.put.sdm.bank.money.Money;
@@ -32,7 +33,7 @@ public class  Deposit extends Product {
 
 
     public void withdrawMoney() {
-        account.getBalance().addAmount(depositValue.getAmount());
+        account.addMoney(new Money(depositValue.getCurrency(), depositValue.getAmount()));
         history.addOperation(new Transaction(TransactionType.CLOSE_DEPOSIT, LocalDateTime.now(), String.format("[ACCOUNT %s] Deposit closed", account.getId().toString())));
     }
 }

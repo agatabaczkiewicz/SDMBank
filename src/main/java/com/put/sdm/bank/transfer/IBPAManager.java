@@ -1,7 +1,6 @@
 package com.put.sdm.bank.transfer;
 
 
-import com.put.sdm.bank.Bank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,7 +36,6 @@ public class IBPAManager{
     }
 
     public void receiveInterBankTransfer(InterBankTransfer interBankTransfer) {
-        //magically receive inter bank transfer from remote bank
-        interBankTransfer.getTransferList().stream().forEach(transfer -> transfer.getReceiver().getBalance().addAmount(transfer.getMoneyToTransfer().getAmount()));
+        interBankTransfer.getTransferList().stream().forEach(transfer -> transfer.getReceiver().addMoney(transfer.getMoneyToTransfer()));
     }
 }
