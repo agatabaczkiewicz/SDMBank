@@ -7,6 +7,8 @@ import com.put.sdm.bank.money.Money;
 import com.put.sdm.bank.product.Loan;
 import com.put.sdm.bank.product.Deposit;
 import com.put.sdm.bank.money.Balance;
+import com.put.sdm.bank.raport.RaportVisitor;
+import com.put.sdm.bank.raport.element.NormalAccountRaportedElement;
 import com.put.sdm.bank.transfer.TransferVerification;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +20,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-public class NormalAccount implements Account{
+public class NormalAccount implements Account, NormalAccountRaportedElement {
 
     private User user;
     private UUID id;
@@ -56,6 +58,16 @@ public class NormalAccount implements Account{
     @Override
     public Money getCurrentMoney() {
         return new Money(balance.getCurrency(), balance.getAmount());
+    }
+
+    @Override
+    public void accept(RaportVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public NormalAccount getNormalAccountData() {
+        return this;
     }
 
     @Override

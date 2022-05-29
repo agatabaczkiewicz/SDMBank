@@ -2,8 +2,8 @@ package com.put.sdm.bank;
 
 import com.put.sdm.bank.account.Account;
 import com.put.sdm.bank.command.AKMCommand;
-import com.put.sdm.bank.command.AddMoneyCommand;
-import com.put.sdm.bank.report.Report;
+import com.put.sdm.bank.raport.RaportVisitor;
+import com.put.sdm.bank.raport.element.BankRaportedElement;
 import com.put.sdm.bank.transaction.HistoryOfTransactions;
 import com.put.sdm.bank.transaction.Transaction;
 import com.put.sdm.bank.transaction.TransactionType;
@@ -13,7 +13,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class Bank {
+public class Bank implements BankRaportedElement {
 
     private final UUID id;
     @Getter
@@ -86,10 +86,16 @@ public class Bank {
         bankMediator.transferToOtherBanks(this, new InterBankTransfer(transfersToSend));
     }
 
-    public Report generateReport(){
-        return null;
+
+    @Override
+    public void accept(RaportVisitor visitor) {
+        visitor.visit(this);
     }
 
+    @Override
+    public Bank getBankData() {
+        return this;
+    }
 
     @Override
     public boolean equals(Object o) {

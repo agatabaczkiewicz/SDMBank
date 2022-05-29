@@ -1,19 +1,20 @@
 package com.put.sdm.bank.account;
 
-import com.put.sdm.bank.Bank;
 import com.put.sdm.bank.User;
 import com.put.sdm.bank.money.Balance;
 import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.money.Money;
 import com.put.sdm.bank.product.Deposit;
 import com.put.sdm.bank.product.Loan;
+import com.put.sdm.bank.raport.RaportVisitor;
+import com.put.sdm.bank.raport.element.DebitAccountRaportedElement;
 import com.put.sdm.bank.transfer.TransferVerification;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-public class DebitAccount implements Account {
+public class DebitAccount implements Account, DebitAccountRaportedElement {
 
     private Account account;
     private Balance debitBalance;
@@ -111,5 +112,25 @@ public class DebitAccount implements Account {
         }
         long moneyToGetFromDebit = moneyToRemove - accountMoney;
         return debitLimit.getAmount().longValue() >= moneyToGetFromDebit;
+    }
+
+    @Override
+    public void accept(RaportVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public DebitAccount getDebitAccountData() {
+        return this;
+    }
+
+    @Override
+    public int hashCode() {
+        return account.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return account.equals(obj);
     }
 }

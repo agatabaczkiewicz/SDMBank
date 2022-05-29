@@ -2,10 +2,11 @@ package com.put.sdm.bank.product;
 
 
 import com.put.sdm.bank.account.Account;
-import com.put.sdm.bank.account.NormalAccount;
 import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Balance;
 import com.put.sdm.bank.money.Money;
+import com.put.sdm.bank.raport.RaportVisitor;
+import com.put.sdm.bank.raport.element.LoanRaportedElement;
 import com.put.sdm.bank.transaction.Transaction;
 import com.put.sdm.bank.transaction.TransactionType;
 import lombok.Getter;
@@ -19,7 +20,7 @@ import java.time.temporal.ChronoUnit;
 
 @Setter
 @Getter
-public class Loan extends Product {
+public class Loan extends Product implements LoanRaportedElement {
 
     private Balance initialValue; //wartość kredytu, który wzięliśmy
     private Balance currentValue; //wartość kredytu do spłacenia
@@ -67,4 +68,13 @@ public class Loan extends Product {
         // case when someone has different currency than loan currency
     }
 
+    @Override
+    public void accept(RaportVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public Loan getLoanData() {
+        return this;
+    }
 }

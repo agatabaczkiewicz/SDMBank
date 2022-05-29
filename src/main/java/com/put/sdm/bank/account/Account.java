@@ -1,8 +1,6 @@
 package com.put.sdm.bank.account;
 
-import com.put.sdm.bank.Bank;
 import com.put.sdm.bank.User;
-import com.put.sdm.bank.money.Balance;
 import com.put.sdm.bank.money.Money;
 import com.put.sdm.bank.product.Deposit;
 import com.put.sdm.bank.product.Loan;
