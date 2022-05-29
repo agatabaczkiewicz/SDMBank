@@ -26,11 +26,6 @@ public class DebitAccount implements Account {
     }
 
     @Override
-    public Bank getBank() {
-        return account.getBank();
-    }
-
-    @Override
     public User getUser() {
         return account.getUser();
     }
@@ -105,5 +100,16 @@ public class DebitAccount implements Account {
         }else{
             throw new ArithmeticException("Balance is not enough to remove chosen amount of money");
         }
+    }
+
+    @Override
+    public boolean canRemoveMoney(Money money) {
+        long accountMoney = account.getCurrentMoney().getAmount().longValue();
+        long moneyToRemove = money.getAmount().longValue();
+        if (accountMoney >= moneyToRemove) { // if there is enough money in account
+            return true;
+        }
+        long moneyToGetFromDebit = moneyToRemove - accountMoney;
+        return debitLimit.getAmount().longValue() >= moneyToGetFromDebit;
     }
 }

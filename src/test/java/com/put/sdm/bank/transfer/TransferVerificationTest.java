@@ -26,7 +26,7 @@ class TransferVerificationTest {
         bank.getAccounts().add(account);
         bank.getAccounts().add(account2);
 
-        Transfer transfer = new Transfer(account, account2, new Money(Currency.PLN, BigDecimal.ZERO));
+        Transfer transfer = new Transfer(bank, account, bank, account2, new Money(Currency.PLN, BigDecimal.ZERO));
         TransferVerification transferVerification = new TransferVerification(new Bank());
 
         //when

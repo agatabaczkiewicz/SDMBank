@@ -31,7 +31,7 @@ class TransferMoneyCommandTest {
 
         Money moneyToTransfer = new Money(Currency.PLN, BigDecimal.valueOf(10L));
 
-        AKMCommand cmd = new TransferMoneyCommand(sender, receiver, moneyToTransfer, new TransferVerification(bank));
+        AKMCommand cmd = new TransferMoneyCommand(bank, sender, bank, receiver, moneyToTransfer, new TransferVerification(bank));
 
         //when
         cmd.execute();

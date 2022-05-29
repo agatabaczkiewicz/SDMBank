@@ -10,5 +10,8 @@
         <module name="SDMBank" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SDMBank" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

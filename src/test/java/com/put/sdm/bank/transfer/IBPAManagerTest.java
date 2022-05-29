@@ -13,23 +13,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IBPAManagerTest {
 
+    private IBPAManager ibpaManager = new IBPAManager();
+
     @BeforeEach
     void beforeEach() {
-        IBPAManager.getIBPAManager().setCache(new ArrayList<>());
+        ibpaManager.setCache(new ArrayList<>());
     }
 
-    @Test
-    void testGetIBPAManager(){
-        assertNotNull(IBPAManager.getIBPAManager());
-    }
 
     @Test
     void testAddTransferToCache(){
         //given
-        IBPAManager ibpaManager = IBPAManager.getIBPAManager();
-
         //when
-        ibpaManager.addTransferToCache(new Transfer(null, null, new Money(Currency.PLN, BigDecimal.ONE)));
+        ibpaManager.addTransferToCache(new Transfer(null, null, null, null, new Money(Currency.PLN, BigDecimal.ONE)));
 
         //then
         assertEquals(BigDecimal.ONE, ibpaManager.getCache().get(0).getMoneyToTransfer().getAmount());
@@ -38,7 +34,6 @@ class IBPAManagerTest {
     @Test
     void testSendInterBankTransfer(){
         //given
-        IBPAManager ibpaManager = IBPAManager.getIBPAManager();
         //when
         //then
     }

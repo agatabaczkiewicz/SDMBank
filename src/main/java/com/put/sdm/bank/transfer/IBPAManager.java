@@ -1,6 +1,8 @@
 package com.put.sdm.bank.transfer;
 
 
+import com.put.sdm.bank.Bank;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,31 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+@Data
 public class IBPAManager{
-    
-    private static IBPAManager ibpaManager;
-    @Getter
-    @Setter
+
     private List<Transfer> cache = new ArrayList<>();
-    
-    private IBPAManager(){}
-    
-    public static IBPAManager getIBPAManager(){
-        if (Objects.isNull(ibpaManager)) {
-            ibpaManager = new IBPAManager();
-        }
-        return ibpaManager;
-    }
 
     public void addTransferToCache(Transfer transfer){
         cache.add(transfer);
     }
 
-    public void sendInterBankTransfer() {
-        new InterBankTransfer(this.cache);
+    public List<Transfer> getTransfersAndClearCache() {
+        List<Transfer> transfers = this.cache;
         this.cache = new ArrayList<>();
-        //magically send inter bank transfer to remote bank
+        return transfers;
     }
 
     public void receiveInterBankTransfer(InterBankTransfer interBankTransfer) {

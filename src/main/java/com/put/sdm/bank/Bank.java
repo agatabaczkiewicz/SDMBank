@@ -7,29 +7,27 @@ import com.put.sdm.bank.report.Report;
 import com.put.sdm.bank.transaction.HistoryOfTransactions;
 import com.put.sdm.bank.transaction.Transaction;
 import com.put.sdm.bank.transaction.TransactionType;
-import com.put.sdm.bank.transfer.IBPAManager;
-import com.put.sdm.bank.transfer.InterBankTransfer;
-import com.put.sdm.bank.transfer.InterBankTransferManager;
+import com.put.sdm.bank.transfer.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class Bank {
 
+    private final UUID id;
     @Getter
-    private HistoryOfTransactions historyOfOperations = new HistoryOfTransactions();
+    private final HistoryOfTransactions historyOfOperations = new HistoryOfTransactions();
     @Getter
-    private List<Account> accounts;
+    private final List<Account> accounts;
+    @Getter
     private IBPAManager ibpaManager;
-    private InterBankTransferManager interBankTransferManager;
+    private BankMediator bankMediator;
 
     public Bank(){
+        this.id = UUID.randomUUID();
         this.accounts = new ArrayList<>();
-        this.ibpaManager = IBPAManager.getIBPAManager();
+        this.ibpaManager = new IBPAManager();
     }
 
     public void createAccount(Account account){
@@ -57,16 +55,52 @@ public class Bank {
     }
 
     public void handleFailedTransfers(InterBankTransfer interBankTransfer) {
-        interBankTransfer.getTransferList().stream().forEach(transfer ->
-                executeAKMCommand(new AddMoneyCommand(transfer.getSender(), transfer.getMoneyToTransfer())));
+        interBankTransfer.getTransferList().forEach(transfer ->
+                transfer.getSender().addMoney(transfer.getMoneyToTransfer()));
+    }
+
+    public InterBankTransfer receiveInterBankTransfer(InterBankTransfer interBankTransfer) {
+        //returns wrapped transfers that can not be succeeded
+
+        List<Transfer> unhandledTransfers = new ArrayList<>();
+
+        interBankTransfer.getTransferList().forEach(transfer -> {
+
+            Account acc = accounts.stream().filter(account -> account.getId().equals(transfer.getReceiver().getId())).findFirst().orElse(null);
+            if (acc != null) {
+                acc.addMoney(transfer.getMoneyToTransfer());
+            }else{
+                unhandledTransfers.add(transfer);
+            }
+        });
+
+        return new InterBankTransfer(unhandledTransfers);
     }
 
     public void executeAKMCommand(AKMCommand command){
         command.execute();
     }
 
+    public void transferWaitingInterBankTransfers() {
+        List<Transfer> transfersToSend = ibpaManager.getTransfersAndClearCache();
+        bankMediator.transferToOtherBanks(this, new InterBankTransfer(transfersToSend));
+    }
+
     public Report generateReport(){
         return null;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bank bank = (Bank) o;
+        return Objects.equals(id, bank.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

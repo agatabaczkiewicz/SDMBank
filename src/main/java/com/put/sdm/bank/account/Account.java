@@ -13,8 +13,6 @@ import java.util.UUID;
 
 public interface Account {
 
-    Bank getBank();
-
     User getUser();
 
     UUID getId();
@@ -28,6 +26,8 @@ public interface Account {
     void addMoney(Money money);
 
     void removeMoney(Money money);
+
+    boolean canRemoveMoney(Money money);
 
     Money getCurrentMoney();
 }

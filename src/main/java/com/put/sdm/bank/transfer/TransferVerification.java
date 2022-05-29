@@ -13,12 +13,16 @@ public class TransferVerification {
     }
 
     public boolean verify(Transfer transfer) {
-        // założenie: ta sama waluta
-        BigDecimal amountOfMoneyAfterTransfer = transfer.getSender().getCurrentMoney().getAmount().subtract(transfer.getMoneyToTransfer().getAmount());
-        boolean verification = amountOfMoneyAfterTransfer.compareTo(BigDecimal.ZERO) >= 0;
-        if (verification && !bank.getAccounts().contains(transfer.getReceiver())) {
-            IBPAManager.getIBPAManager().addTransferToCache(transfer);
+
+        if (transfer.getSenderBank() == null || transfer.getSender() == null
+                || transfer.getReceiverBank() == null || transfer.getReceiver() == null) {
+            return false;
         }
-        return verification;
+
+        return transfer.getSender().canRemoveMoney(transfer.getMoneyToTransfer());
+    }
+
+    public boolean isInterBankTransfer(Transfer transfer) {
+        return !transfer.getSenderBank().equals(transfer.getReceiverBank());
     }
 }

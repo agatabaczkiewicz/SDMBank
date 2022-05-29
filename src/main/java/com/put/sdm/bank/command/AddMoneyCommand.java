@@ -13,6 +13,6 @@ public class AddMoneyCommand implements AKMCommand {
 
     @Override
     public void execute() {
-        account.removeMoney(money);
+        account.addMoney(money);
     }
 }

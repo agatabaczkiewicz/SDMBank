@@ -20,7 +20,6 @@ import java.util.UUID;
 @Getter
 public class NormalAccount implements Account{
 
-    private Bank bank;
     private User user;
     private UUID id;
     private List<Loan> loans;
@@ -36,7 +35,6 @@ public class NormalAccount implements Account{
         this.deposits = new ArrayList<>();
         this.balance = new Balance(currency, BigDecimal.ZERO);
         this.transferVerification = new TransferVerification(bank);
-        this.bank = bank;
     }
 
     @Override
@@ -46,13 +44,14 @@ public class NormalAccount implements Account{
 
     @Override
     public void removeMoney(Money money){
-        if (balance.getAmount().subtract(money.getAmount()).longValue() < 0L){
-            throw new ArithmeticException("Balance is not enough to remove chosen amount of money");
-        }
-
         balance.removeAmount(money.getAmount());
     }
 
+
+    @Override
+    public boolean canRemoveMoney(Money money) {
+        return balance.getAmount().subtract(money.getAmount()).longValue() < 0L;
+    }
 
     @Override
     public Money getCurrentMoney() {
