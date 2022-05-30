@@ -16,7 +16,7 @@ public abstract class Product {
     protected LocalDate startDate;
     protected LocalDate endDate;
     protected Balance balance;
-    protected InterestRateFunction interestRateFunction;
+    protected InterestRateFunction interestRateFunction; //state
     protected HistoryOfTransactions history;
 
     public Product(Account account, LocalDate startDate, LocalDate endDate, Balance balance, InterestRateFunction interestRateFunction) {

@@ -29,7 +29,6 @@ class CreateDepositCommandTest {
         cmd.execute();
 
         //then
-
         assertEquals(1, account.getDeposits().size());
     }
 

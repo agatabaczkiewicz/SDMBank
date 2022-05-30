@@ -2,6 +2,7 @@ package com.put.sdm.bank;
 
 import com.put.sdm.bank.account.Account;
 import com.put.sdm.bank.account.NormalAccount;
+import com.put.sdm.bank.command.AddMoneyCommand;
 import com.put.sdm.bank.money.Currency;
 import org.junit.jupiter.api.Test;
 
@@ -38,5 +39,7 @@ class BankTest {
         assertEquals(0, bank.getAccounts().size());
         assertEquals(2, bank.getHistoryOfOperations().getHistory().size());
     }
+
+    //TODO
 
 }

@@ -15,6 +15,7 @@ import java.util.*;
 
 public class Bank implements BankRaportedElement {
 
+    @Getter
     private final UUID id;
     @Getter
     private final HistoryOfTransactions historyOfOperations = new HistoryOfTransactions();
