@@ -28,4 +28,6 @@ public interface Account {
     boolean canRemoveMoney(Money money);
 
     Money getCurrentMoney();
+
+    boolean checkCurrencyMatch(Money money);
 }

@@ -30,6 +30,16 @@ class NormalAccountTest {
         //then
         assertEquals(50L, account.getCurrentMoney().getAmount().longValue());
     }
+    @Test
+    void addMoneyCurrencyMismatchTest(){
+        //given
+
+        //when
+        Executable executable = () -> account.addMoney(new Money(Currency.USD, BigDecimal.valueOf(100L)));
+        //then
+        assertThrows(UnsupportedOperationException.class, executable);
+    }
+
 
     @Test
     void removeMoneyNotEnoughMoney() {
@@ -54,7 +64,18 @@ class NormalAccountTest {
 
         //then
         assertEquals(50L, account.getCurrentMoney().getAmount().longValue());
+    }
 
+    @Test
+    void removeMoneyCurrencyMismatchTest(){
+        //given
+        account.addMoney(new Money(Currency.PLN, BigDecimal.valueOf(100L)));
+        Money money = new Money(Currency.EUR, BigDecimal.valueOf(50L));
+
+        //when
+        Executable executable = () -> account.removeMoney(money);
+        //then
+        assertThrows(UnsupportedOperationException.class, executable);
     }
 
     @Test
@@ -64,5 +85,16 @@ class NormalAccountTest {
         Money currentMoney = account.getCurrentMoney();
         //then
         assertEquals(0L, currentMoney.getAmount().longValue());
+    }
+
+    @Test
+    void checkCurrencyMatchTest(){
+        //given
+        Money money = new Money(Currency.USD,BigDecimal.valueOf(100L));
+        //when
+        boolean checkResult = account.checkCurrencyMatch(money);
+
+        //then
+        assertFalse(checkResult);
     }
 }

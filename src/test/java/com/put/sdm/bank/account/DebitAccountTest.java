@@ -126,4 +126,33 @@ class DebitAccountTest {
         //then
         assertThrows(ArithmeticException.class, executable);
     }
+    @Test
+    void addMoneyCurrencyMismatchTest(){
+        //given
+        account = new DebitAccount(account, new Money(Currency.PLN, BigDecimal.valueOf(100L)));
+        //when
+        Executable executable = () -> account.addMoney(new Money(Currency.USD, BigDecimal.valueOf(100L)));
+        //then
+        assertThrows(UnsupportedOperationException.class, executable);
+    }
+
+    @Test
+    void removeMoneyCurrencyMismatchTest(){
+        //given
+        account = new DebitAccount(account, new Money(Currency.PLN, BigDecimal.valueOf(100L)));
+        //when
+        Executable executable = () -> account.removeMoney(new Money(Currency.USD, BigDecimal.valueOf(100L)));
+        //then
+        assertThrows(UnsupportedOperationException.class, executable);
+    }
+
+    @Test
+    void createDebitAccountTest(){
+        //given
+
+        //when
+        Executable executable = () -> new DebitAccount(account, new Money(Currency.USD, BigDecimal.valueOf(100L)));
+        //then
+        assertThrows(IllegalArgumentException.class, executable);
+    }
 }

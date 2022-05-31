@@ -41,18 +41,29 @@ public class NormalAccount implements Account, NormalAccountRaportedElement {
 
     @Override
     public void addMoney(Money money){
-        balance.addAmount(money.getAmount());
+        if(!checkCurrencyMatch(money)) {
+            throw new UnsupportedOperationException("You can't add money in currency differing one set to your account  ");
+        }else {
+            balance.addAmount(money.getAmount());
+        }
     }
 
     @Override
     public void removeMoney(Money money){
-        balance.removeAmount(money.getAmount());
+        if(!checkCurrencyMatch(money)) {
+            throw new UnsupportedOperationException("You can't remove money in currency differing one set to your account  ");
+        }
+        if(this.balance.getAmount().longValue() >= money.getAmount().longValue()) {
+            balance.removeAmount(money.getAmount());
+        }else {
+            throw new ArithmeticException("Balance is not enough to remove chosen amount of money");
+        }
     }
 
 
     @Override
     public boolean canRemoveMoney(Money money) {
-        return balance.getAmount().subtract(money.getAmount()).longValue() < 0L;
+        return balance.getAmount().subtract(money.getAmount()).longValue() > 0L;
     }
 
     @Override
@@ -82,5 +93,10 @@ public class NormalAccount implements Account, NormalAccountRaportedElement {
     @Override
     public int hashCode() {
         return Objects.hash(user, id);
+    }
+
+    @Override
+    public boolean checkCurrencyMatch(Money money){
+        return this.balance.getCurrency() == money.getCurrency();
     }
 }

@@ -2,7 +2,6 @@ package com.put.sdm.bank.account;
 
 import com.put.sdm.bank.User;
 import com.put.sdm.bank.money.Balance;
-import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.money.Money;
 import com.put.sdm.bank.product.Deposit;
 import com.put.sdm.bank.product.Loan;
@@ -21,9 +20,13 @@ public class DebitAccount implements Account, DebitAccountRaportedElement {
     private Money debitLimit;
 
     public DebitAccount(Account account, Money debitLimit) {
-        this.account = account;
-        this.debitLimit = debitLimit;
-        this.debitBalance = new Balance(Currency.PLN, BigDecimal.ZERO);
+        if(account.checkCurrencyMatch(debitLimit)) {
+            this.account = account;
+            this.debitLimit = debitLimit;
+            this.debitBalance = new Balance(debitLimit.getCurrency(), BigDecimal.ZERO);
+        }else{
+            throw new IllegalArgumentException("Debit account must be the same currency as base account");
+        }
     }
 
     @Override
@@ -64,6 +67,10 @@ public class DebitAccount implements Account, DebitAccountRaportedElement {
     public void addMoney(Money money) {
         long debitBalanceAmount = debitBalance.getAmount().longValue();
 
+        if (!checkCurrencyMatch(money)) {
+            throw new UnsupportedOperationException("You can't remove money in currency differing one set to your account  ");
+        }
+
         if (debitBalanceAmount == 0L) {
             account.addMoney(money);
             return;
@@ -88,6 +95,10 @@ public class DebitAccount implements Account, DebitAccountRaportedElement {
     public void removeMoney(Money money) {
         long accountMoney = account.getCurrentMoney().getAmount().longValue();
         long moneyToRemove = money.getAmount().longValue();
+
+        if (!checkCurrencyMatch(money)) {
+            throw new UnsupportedOperationException("You can't remove money in currency differing one set to your account  ");
+        }
 
         if (accountMoney >= moneyToRemove) { // if there is enough money in account
             account.removeMoney(money);
@@ -132,5 +143,9 @@ public class DebitAccount implements Account, DebitAccountRaportedElement {
     @Override
     public boolean equals(Object obj) {
         return account.equals(obj);
+    }
+
+    public boolean checkCurrencyMatch(Money money){
+        return this.debitBalance.getCurrency() == money.getCurrency();
     }
 }
