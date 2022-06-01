@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class InterBankTransferManager implements BankMediator {
@@ -18,8 +19,13 @@ public class InterBankTransferManager implements BankMediator {
 
     @Override
     public void transferToOtherBanks(Bank senderBank, InterBankTransfer interBankTransfer) {
+        if (senderBank == null || interBankTransfer == null) {
+            return;
+        }
 
-        Map<Bank, List<Transfer>> transfersGroupedByReceiverBank = interBankTransfer.getTransferList().stream().collect(Collectors.groupingBy(Transfer::getReceiverBank));
+        Map<Bank, List<Transfer>> transfersGroupedByReceiverBank = interBankTransfer.getTransferList()
+                .stream().filter(transfer -> Objects.nonNull(transfer.getReceiverBank()))
+                .collect(Collectors.groupingBy(Transfer::getReceiverBank));
 
         transfersGroupedByReceiverBank.forEach((bank, transfers) -> {
             if (bankList.contains(bank)) {

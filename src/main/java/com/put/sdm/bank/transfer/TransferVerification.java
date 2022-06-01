@@ -2,8 +2,6 @@ package com.put.sdm.bank.transfer;
 
 import com.put.sdm.bank.Bank;
 
-import java.math.BigDecimal;
-
 public class TransferVerification {
 
     private final Bank bank;
@@ -13,9 +11,9 @@ public class TransferVerification {
     }
 
     public boolean verify(Transfer transfer) {
-
-        if (transfer.getSenderBank() == null || transfer.getSender() == null
-                || transfer.getReceiverBank() == null || transfer.getReceiver() == null) {
+        if (transfer == null || transfer.getSenderBank() == null
+                || transfer.getSender() == null || transfer.getReceiverBank() == null
+                || transfer.getReceiver() == null || transfer.getMoneyToTransfer() == null) {
             return false;
         }
 

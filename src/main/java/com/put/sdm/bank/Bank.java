@@ -56,8 +56,12 @@ public class Bank implements BankRaportedElement {
     }
 
     public void handleFailedTransfers(InterBankTransfer interBankTransfer) {
-        interBankTransfer.getTransferList().forEach(transfer ->
-                transfer.getSender().addMoney(transfer.getMoneyToTransfer()));
+        interBankTransfer.getTransferList()
+                .forEach(transfer -> {
+                    if (transfer.getSender() != null) {
+                        transfer.getSender().addMoney(transfer.getMoneyToTransfer());
+                    }
+                });
     }
 
     public InterBankTransfer receiveInterBankTransfer(InterBankTransfer interBankTransfer) {
@@ -66,11 +70,13 @@ public class Bank implements BankRaportedElement {
         List<Transfer> unhandledTransfers = new ArrayList<>();
 
         interBankTransfer.getTransferList().forEach(transfer -> {
-
+            if (transfer.getReceiver() == null) {
+                return;
+            }
             Account acc = accounts.stream().filter(account -> account.getId().equals(transfer.getReceiver().getId())).findFirst().orElse(null);
             if (acc != null) {
                 acc.addMoney(transfer.getMoneyToTransfer());
-            }else{
+            } else {
                 unhandledTransfers.add(transfer);
             }
         });

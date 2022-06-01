@@ -2,12 +2,12 @@ package com.put.sdm.bank.transfer;
 
 import com.put.sdm.bank.money.Currency;
 import com.put.sdm.bank.money.Money;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +22,7 @@ class IBPAManagerTest {
 
 
     @Test
-    void testAddTransferToCache(){
+    void testAddTransferToCache() { //czy cos wiecej tu?
         //given
         //when
         ibpaManager.addTransferToCache(new Transfer(null, null, null, null, new Money(Currency.PLN, BigDecimal.ONE)));
@@ -32,19 +32,16 @@ class IBPAManagerTest {
     }
 
     @Test
-    void testSendInterBankTransfer(){
+    void testGetTransfersAndClearCache(){
         //given
+        Transfer transfer = new Transfer(null, null, null, null, new Money(Currency.PLN, BigDecimal.ONE));
+
         //when
+        ibpaManager.addTransferToCache(transfer);
+        List<Transfer> transferList = ibpaManager.getTransfersAndClearCache();
+
         //then
+        assertEquals(transferList.get(0), transfer);
+        assertTrue(ibpaManager.getCache().isEmpty());
     }
-
-    @Test
-    void testReceiveInterBankTransfer(){
-        //given
-        //when
-        //then
-    }
-
-    //TODO
-
 }
