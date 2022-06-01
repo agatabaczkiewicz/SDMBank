@@ -63,7 +63,7 @@ public class NormalAccount implements Account, NormalAccountRaportedElement {
 
     @Override
     public boolean canRemoveMoney(Money money) {
-        return balance.getAmount().subtract(money.getAmount()).longValue() > 0L;
+        return balance.getAmount().subtract(money.getAmount()).longValue() >= 0L;
     }
 
     @Override

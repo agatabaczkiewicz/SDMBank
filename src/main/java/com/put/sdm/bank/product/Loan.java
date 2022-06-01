@@ -38,15 +38,25 @@ public class Loan extends Product implements LoanRaportedElement {
         this.loanValue = new Balance(moneyToLoan.getCurrency(), BigDecimal.ZERO);
         this.interest = new Money(moneyToLoan.getCurrency(),
                 BigDecimal.valueOf(calculateInterestRate().getRate() * baseInstallment.getAmount().longValue()));
-        calculateInstallmentWithInterestRate();
+       // calculateInstallmentWithInterestRate();
         this.account.addMoney(new Money(initialValue.getCurrency(), initialValue.getAmount()));
-        history.addOperation(new Transaction(TransactionType.OPEN_CREDIT, LocalDateTime.now(),
-                String.format("[ACCOUNT %s]: Credit opened", account.getId())));
+        account.getLoans().add(this);
     }
 
-    private Money calculateInstallmentWithInterestRate(){
+    protected Money calculateInstallmentWithInterestRate(){
         BigDecimal amount = baseInstallment.getAmount().add(interest.getAmount());
         return new Money(initialValue.getCurrency(), amount);
+    }
+
+    @Override
+    public void setInterestRateFunction(InterestRateFunction interestRateFunction) {
+        super.setInterestRateFunction(interestRateFunction);
+        setInterest();
+    }
+
+    public void setInterest() {
+        this.interest = new Money(initialValue.getCurrency(),
+                BigDecimal.valueOf(calculateInterestRate().getRate() * baseInstallment.getAmount().longValue()));
     }
 
     private Money calculateBaseInstallment(){
@@ -58,14 +68,48 @@ public class Loan extends Product implements LoanRaportedElement {
 
     public void payInstallment() {
         Money installment = calculateInstallmentWithInterestRate();
-        loanValue.addAmount(installment.getAmount());
-        currentValue.removeAmount(baseInstallment.getAmount());
-        history.addOperation(new Transaction(TransactionType.CREDIT_PAYMENT, LocalDateTime.now(),
+        if(checkIfThisIsTheEnd()){
+            throw new RuntimeException("You have already paid off your installment");
+        }
+        if(account.canRemoveMoney(installment)) {
+            account.removeMoney(new Money(installment.getCurrency(), installment.getAmount()));
+            loanValue.addAmount(installment.getAmount());
+            currentValue.removeAmount(baseInstallment.getAmount());
+            history.addOperation(new Transaction(TransactionType.CREDIT_PAYMENT, LocalDateTime.now(),
                 String.format("[ACCOUNT %s]: Installment payed - %s left to pay", account.getId(), currentValue.getAmount().toString())));
-        account.removeMoney(new Money(installment.getCurrency(), installment.getAmount()));
+            if(checkIfThisIsTheEnd()){
+                history.addOperation(new Transaction(TransactionType.CREDIT_PAYMENT, LocalDateTime.now(),
+                        String.format("[ACCOUNT %s]: Loan payed of - %s left to pay", account.getId(), currentValue.getAmount().toString())));
+                account.getLoans().remove(this);
+            };
+        }else{
+            throw new ArithmeticException("You have too little money to pay your installment");
+        }
+    }
 
-        // case when account has no money
-        // case when someone has different currency than loan currency
+    public boolean checkIfThisIsTheEnd(){
+        return currentValue.getAmount().longValue() <= 0L;
+    }
+
+    public void payOffLoan(){
+        long monthsLeft = ChronoUnit.MONTHS.between(LocalDate.now(), endDate);
+        BigDecimal toPaidSum = this.currentValue.getAmount().add(BigDecimal.valueOf(interest.getAmount().doubleValue() * monthsLeft));
+        Money installment = new Money(this.currentValue.getCurrency(),
+                toPaidSum);
+        if(checkIfThisIsTheEnd()){
+            throw new RuntimeException("You have already paid off your installment");
+        }
+        if(account.canRemoveMoney(installment)) {
+            account.removeMoney(new Money(installment.getCurrency(), installment.getAmount()));
+            loanValue.addAmount(installment.getAmount());
+            currentValue.removeAmount(BigDecimal.valueOf(baseInstallment.getAmount().doubleValue() * monthsLeft));
+            history.addOperation(new Transaction(TransactionType.CREDIT_PAYMENT, LocalDateTime.now(),
+                    String.format("[ACCOUNT %s]: Loan payed of - %s left to pay", account.getId(), currentValue.getAmount().toString())));
+            account.getLoans().remove(this);
+        }
+        else{
+            throw new ArithmeticException("You have too little money to pay off your loan");
+        }
     }
 
     @Override

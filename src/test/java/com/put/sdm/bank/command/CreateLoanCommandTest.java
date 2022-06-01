@@ -30,5 +30,6 @@ class CreateLoanCommandTest {
 
         //then
         assertEquals(1, account.getLoans().size());
+        assertEquals(100f, account.getCurrentMoney().getAmount().floatValue());
     }
 }

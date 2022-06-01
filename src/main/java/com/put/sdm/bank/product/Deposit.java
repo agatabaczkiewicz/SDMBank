@@ -29,13 +29,14 @@ public class  Deposit extends Product implements DepositRaportedElement {
                 BigDecimal.valueOf(calculateInterestRate().getRate() * money.getAmount().longValue()));
 
         this.depositValue =  new Balance(money.getCurrency(), money.getAmount().add(this.interest.getAmount()));
-        history.addOperation(new Transaction(TransactionType.MAKE_DEPOSIT, LocalDateTime.now(), String.format("[ACCOUNT %s] Deposit opened", account.getId().toString())));
+        account.getDeposits().add(this);
     }
 
 
     public void withdrawMoney() {
         account.addMoney(new Money(depositValue.getCurrency(), depositValue.getAmount()));
         history.addOperation(new Transaction(TransactionType.CLOSE_DEPOSIT, LocalDateTime.now(), String.format("[ACCOUNT %s] Deposit closed", account.getId().toString())));
+        account.getDeposits().remove(this);
     }
 
     @Override
