@@ -33,11 +33,11 @@ public class Loan extends Product implements LoanRaportedElement {
                 InterestRateFunction interestRateFunction) {
         super(account, startDate, endDate, new Balance(moneyToLoan), interestRateFunction);
         this.initialValue = new Balance(moneyToLoan);
-        this.currentValue = this.initialValue;
+        this.currentValue = new Balance(moneyToLoan);
         this.baseInstallment = calculateBaseInstallment();
         this.loanValue = new Balance(moneyToLoan.getCurrency(), BigDecimal.ZERO);
         this.interest = new Money(moneyToLoan.getCurrency(),
-                BigDecimal.valueOf(calculateInterestRate().getRate() * baseInstallment.getAmount().longValue()));
+                BigDecimal.valueOf(baseInstallment.getAmount().longValue() * calculateInterestRate().getRate()));
        // calculateInstallmentWithInterestRate();
         this.account.addMoney(new Money(initialValue.getCurrency(), initialValue.getAmount()));
         account.getLoans().add(this);
@@ -68,21 +68,21 @@ public class Loan extends Product implements LoanRaportedElement {
 
     public void payInstallment() {
         Money installment = calculateInstallmentWithInterestRate();
-        if(checkIfThisIsTheEnd()){
+        if (checkIfThisIsTheEnd()) {
             throw new RuntimeException("You have already paid off your installment");
         }
-        if(account.canRemoveMoney(installment)) {
+        if (account.canRemoveMoney(installment)) {
             account.removeMoney(new Money(installment.getCurrency(), installment.getAmount()));
             loanValue.addAmount(installment.getAmount());
             currentValue.removeAmount(baseInstallment.getAmount());
             history.addOperation(new Transaction(TransactionType.CREDIT_PAYMENT, LocalDateTime.now(),
                 String.format("[ACCOUNT %s]: Installment payed - %s left to pay", account.getId(), currentValue.getAmount().toString())));
-            if(checkIfThisIsTheEnd()){
+            if (checkIfThisIsTheEnd()) {
                 history.addOperation(new Transaction(TransactionType.CREDIT_PAYMENT, LocalDateTime.now(),
                         String.format("[ACCOUNT %s]: Loan payed of - %s left to pay", account.getId(), currentValue.getAmount().toString())));
                 account.getLoans().remove(this);
             };
-        }else{
+        } else {
             throw new ArithmeticException("You have too little money to pay your installment");
         }
     }
@@ -96,7 +96,8 @@ public class Loan extends Product implements LoanRaportedElement {
         BigDecimal toPaidSum = this.currentValue.getAmount().add(BigDecimal.valueOf(interest.getAmount().doubleValue() * monthsLeft));
         Money installment = new Money(this.currentValue.getCurrency(),
                 toPaidSum);
-        if(checkIfThisIsTheEnd()){
+
+        if (checkIfThisIsTheEnd()) {
             throw new RuntimeException("You have already paid off your installment");
         }
         if(account.canRemoveMoney(installment)) {
@@ -106,8 +107,7 @@ public class Loan extends Product implements LoanRaportedElement {
             history.addOperation(new Transaction(TransactionType.CREDIT_PAYMENT, LocalDateTime.now(),
                     String.format("[ACCOUNT %s]: Loan payed of - %s left to pay", account.getId(), currentValue.getAmount().toString())));
             account.getLoans().remove(this);
-        }
-        else{
+        } else {
             throw new ArithmeticException("You have too little money to pay off your loan");
         }
     }

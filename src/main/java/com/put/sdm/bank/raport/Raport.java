@@ -10,8 +10,7 @@ public interface Raport {
 
     String getRaportFooter();
 
-
-    default String generateRaport(){
+    default String generateRaport() {
         String rows = String.join("", getRaportRows());
 
         return getRaportHeader().concat(rows).concat(getRaportFooter());

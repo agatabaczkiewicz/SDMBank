@@ -2,35 +2,41 @@ package com.put.sdm.bank.raport;
 
 import com.put.sdm.bank.account.DebitAccount;
 import com.put.sdm.bank.raport.element.*;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class AccountsDebitAmountRaport implements Raport, RaportVisitor {
+@Getter
+public class DebitAccountsRaport implements Raport, RaportVisitor {
 
     private List<DebitAccount> debitAccounts;
 
-    public AccountsDebitAmountRaport() {
+    public DebitAccountsRaport() {
         debitAccounts = new ArrayList<>();
     }
 
     @Override
     public String getRaportHeader() {
-        return "ACCOUNTS DEBIT AMOUNT\nAccount ID; Debit amount;\n";
+        return "ACCOUNTS DEBIT AMOUNT\nAccount id; Debit amount;\n";
     }
 
     @Override
     public List<String> getRaportRows() {
+        String raportRowFormat = "%s; %s;\n";
+
         return debitAccounts.stream()
-                .map(debitAccount -> debitAccount.getCurrentDebitMoney().getAmount().toString())
+                .filter(Objects::nonNull)
+                .map(debitAccount -> String.format(raportRowFormat, debitAccount.getId().toString(), debitAccount.getCurrentDebitMoney().getAmount().toString()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public String getRaportFooter() {
-        return LocalDate.now().toString();
+        return "===========\n" + LocalDate.now();
     }
 
     @Override
