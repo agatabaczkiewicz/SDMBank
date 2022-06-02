@@ -22,7 +22,7 @@ public class FinishedLoansRaport implements Raport, RaportVisitor {
 
     @Override
     public String getRaportHeader() {
-        return "FINISHED LOANS\nAccount id; Date start; Date end; Initial Value;\n";
+        return "FINISHED LOANS\n===========\nAccount id; Date start; Date end; Initial Value;\n";
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.put.sdm.bank.Bank;
 import com.put.sdm.bank.User;
 import com.put.sdm.bank.account.Account;
 import com.put.sdm.bank.account.NormalAccount;
-import com.put.sdm.bank.interestrate.BasicInterestRateFunction;
 import com.put.sdm.bank.interestrate.InterestRate;
 import com.put.sdm.bank.interestrate.InterestRateFunction;
 import com.put.sdm.bank.money.Currency;
@@ -17,7 +16,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FinishedLoansRaportTest {
+class FinishedLoansRaportTest {
     private FinishedLoansRaport report = new FinishedLoansRaport();
 
     @Test

@@ -21,7 +21,7 @@ public class DebitAccountsRaport implements Raport, RaportVisitor {
 
     @Override
     public String getRaportHeader() {
-        return "ACCOUNTS DEBIT AMOUNT\nAccount id; Debit amount;\n";
+        return "ACCOUNTS DEBIT AMOUNT\n===========\nAccount id; Debit amount;\n";
     }
 
     @Override

@@ -29,6 +29,7 @@ public class Bank implements BankRaportedElement {
         this.id = UUID.randomUUID();
         this.accounts = new ArrayList<>();
         this.ibpaManager = new IBPAManager();
+        this.bankMediator = new InterBankTransferManager(new ArrayList<>());
     }
 
     public void createAccount(Account account){

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DebitAccountsRaportTest {
+class DebitAccountsRaportTest {
     private DebitAccountsRaport report = new DebitAccountsRaport();
 
     @Test
